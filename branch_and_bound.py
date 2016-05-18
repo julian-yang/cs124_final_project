@@ -43,6 +43,17 @@ def determine_h1_h2_h3_h4(genotype, genotype_solutions, haplotype_resolution):
     return h1, h2, h3, h4, True
 
 
+def remove_cur_resolution(stack, solution_haplotypes, unique_haplotype_count):
+    (cur_genotype, cur_genotype_resolutions) = stack[-1]
+    cur_resolution = cur_genotype_resolutions[-1]
+    for haplotype in cur_resolution:
+        solution_haplotypes[haplotype] -= 1
+        if solution_haplotypes[haplotype] == 0:
+            unique_haplotype_count -= 1
+            # delete action just undone
+    cur_genotype_resolutions.pop()
+    return unique_haplotype_count, cur_genotype_resolutions
+
 def branch_and_bound(input_genotypes, greedy_solution_count):
     # generate resolution coverage.
     # maps haplotypes to genotypes it covers
@@ -138,35 +149,23 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
                               list(genotype_resolutions[next_genotype])))
         else:
             # undo action just committed
-            for haplotype in cur_resolution:
-                solution_haplotypes[haplotype] -= 1
-                if solution_haplotypes[haplotype] == 0:
-                    unique_haplotype_count -= 1
-            # delete action just undone
-            cur_genotype_resolutions.pop()
+            unique_haplotype_count, cur_genotype_resolutions = \
+                remove_cur_resolution(stack, solution_haplotypes,
+                                      unique_haplotype_count)
             # if still solutions left for current depth:
             if cur_genotype_resolutions:
                 continue
             else:
                 # undo previous layer
                 stack.pop()
-                (cur_genotype, cur_genotype_resolutions) = stack[-1]
-                cur_resolution = cur_genotype_resolutions[-1]
-                for haplotype in cur_resolution:
-                    solution_haplotypes[haplotype] -= 1
-                    if solution_haplotypes[haplotype] == 0:
-                        unique_haplotype_count -= 1
-                cur_genotype_resolutions.pop()
+                unique_haplotype_count, cur_genotype_resolutions = \
+                    remove_cur_resolution(stack, solution_haplotypes,
+                                          unique_haplotype_count)
                 while not cur_genotype_resolutions:
                     stack.pop()
-                    (cur_genotype, cur_genotype_resolutions) = stack[-1]
-                    cur_resolution = cur_genotype_resolutions[-1]
-                    for haplotype in cur_resolution:
-                        solution_haplotypes[haplotype] -= 1
-                        if solution_haplotypes[haplotype] == 0:
-                            unique_haplotype_count -= 1
-                    cur_genotype_resolutions.pop()
-                #del opt_solution[cur_genotype]
+                    unique_haplotype_count, cur_genotype_resolutions = \
+                    remove_cur_resolution(stack, solution_haplotypes,
+                                          unique_haplotype_count)
 
     final_solution = []
     for genotype in input_genotypes:
