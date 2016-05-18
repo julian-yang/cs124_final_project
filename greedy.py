@@ -8,6 +8,7 @@ from greedy_slow import greedy_haplotype_solver
 
 import math
 
+
 def generate_permutations(length):
     curList = ['']
     tempList = []
