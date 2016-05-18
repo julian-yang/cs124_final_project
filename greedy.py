@@ -24,25 +24,6 @@ def generate_permutations(length):
     return curList
 
 
-def get_solution_pairs(genotype):
-    num_replacements = genotype.count('2')
-    replacements = generate_permutations(num_replacements)
-    solutions = [list(genotype) for i in range(len(replacements))]
-    begin_find = 0
-    for i in range(num_replacements):
-        replace_index = genotype.find('2', begin_find)
-        begin_find = replace_index + 1
-        for j in range(len(replacements)):
-            solutions[j][replace_index] = replacements[j][i]
-
-    solutions[:] = [''.join(s) for s in solutions]
-    l1 = solutions[:len(solutions)/2]
-    l2 = solutions[len(solutions)/2:]
-    l2.reverse()
-    fills = zip(l1, l2)
-    return fills
-
-
 def haplotype_solves_genotype(haplotype, genotype):
     if len(haplotype) != len(genotype):
         return False
@@ -55,6 +36,8 @@ def haplotype_solves_genotype(haplotype, genotype):
             return False
     return True
 
+def convert_input(input):
+    return [get_genotype_hash(genotype) for genotype in input]
 
 # finds the other haplotype h2 for the input haplotype h1 such that h1 and h2 solve genotype
 def find_haplotype_complement(haplotype, genotype):
@@ -85,10 +68,7 @@ def greedy_with_regret_solver(genotypes, allow_regret=True):
     genotype_dict = {}
 
     # converted_genotypes is in str format as opposed to a list of ints
-    converted_genotypes = []
-    for genotype in genotypes:
-        converted = get_genotype_hash(genotype)
-        converted_genotypes.append(converted)
+    converted_genotypes = convert_input(genotypes)
 
     unique_genotypes = set(converted_genotypes)
     genotypes_covered = set()
