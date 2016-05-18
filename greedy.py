@@ -4,7 +4,7 @@ from solutions_checker import check_solution
 from greedy_slow import haplotype_solves_genotype
 from greedy_slow import get_genotype_hash
 from greedy_slow import find_haplotype_complement
-from greedy_slow import greedy_haplotype_solver
+
 
 import math
 
@@ -68,10 +68,7 @@ def greedy_with_regret_solver(genotypes, allow_regret=True):
 
     genotype_dict = {}
 
-    # converted_genotypes is in str format as opposed to a list of ints
-    converted_genotypes = convert_input(genotypes)
-
-    unique_genotypes = set(converted_genotypes)
+    unique_genotypes = set(genotypes)
     genotypes_covered = set()
 
     # maps haplotypes to genotypes it covers
@@ -120,8 +117,8 @@ def greedy_with_regret_solver(genotypes, allow_regret=True):
         pair = genotype_dict[get_genotype_hash(genotype)]
         solution.append(pair[0])
         solution.append(pair[1])
-    print 'removed_count is {}'.format(removed_count)
-    return (haplotype_list, solution)
+    #print 'removed_count is {}'.format(removed_count)
+    return haplotype_list, solution
 
 
 def main():
