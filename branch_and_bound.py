@@ -94,13 +94,16 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
     # if h1, h3, h4, h6 have coverage 1 and h2 and h4 have coverage 2:
     # keep only (h1, h2) and (h2, h3) [delete (h4, h5) and (h5, h6)
     for genotype1 in genotypes_with_two_resolutions:
+        if len(genotype_resolutions[genotype1]) != 2:
+            continue
         (h1, h2, h3, h4, valid) = \
             determine_h1_h2_h3_h4(genotype1, genotype_resolutions,
                                   haplotype_resolution)
         if not valid:
             continue
         for genotype2 in genotypes_with_two_resolutions:
-            if genotype1 == genotype2:
+            if genotype1 == genotype2 \
+                    or len(genotype_resolutions[genotype2]) != 2:
                 continue
             (h5, h6, h7, h8, valid) = \
                 determine_h1_h2_h3_h4(genotype2, genotype_resolutions,
@@ -119,12 +122,14 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
 
     unique_genotypes.sort(key=lambda x: len(genotype_resolutions[x]))
     # perform depth first search of solutions space
-    # opt_solution is a map of genotype -> resolution tuple
-    opt_solution = {}
+    # cur_solution is a map of genotype -> resolution tuple
+    cur_solution = {}
     solution_haplotypes = {}
     unique_haplotype_count = 0
     stack = [(unique_genotypes[0],
                   list(genotype_resolutions[unique_genotypes[0]]))]
+    opt_solution = {}
+    opt_haploptype_count = greedy_solution_count
     while stack:
         (cur_genotype, cur_genotype_resolutions) = stack[-1]
         # pick first resolution off stack.
@@ -136,11 +141,14 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
             if solution_haplotypes[haplotype] == 0:
                 unique_haplotype_count += 1
             solution_haplotypes[haplotype] += 1
-        opt_solution[cur_genotype] = cur_resolution
+        cur_solution[cur_genotype] = cur_resolution
         # if picking solution creates partial cost <= greedy:
-        if unique_haplotype_count <= greedy_solution_count:
+        undo_action = False
+        if unique_haplotype_count <= opt_haploptype_count:
             if len(stack) == len(unique_genotypes):
-                break
+                opt_solution = cur_solution
+                opt_haploptype_count = unique_haplotype_count
+                undo_action = True
                 # save as current best solution
             else:
                 # add next level solutions
@@ -148,6 +156,9 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
                 stack.append((next_genotype,
                               list(genotype_resolutions[next_genotype])))
         else:
+            undo_action = True
+
+        if undo_action:
             # undo action just committed
             unique_haplotype_count, cur_genotype_resolutions = \
                 remove_cur_resolution(stack, solution_haplotypes,
@@ -163,6 +174,8 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
                                           unique_haplotype_count)
                 while not cur_genotype_resolutions:
                     stack.pop()
+                    if not stack:
+                        break
                     unique_haplotype_count, cur_genotype_resolutions = \
                     remove_cur_resolution(stack, solution_haplotypes,
                                           unique_haplotype_count)
@@ -172,7 +185,7 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
         pair = opt_solution[genotype]
         final_solution.append(pair[0])
         final_solution.append(pair[1])
-    return unique_haplotype_count, solution_haplotypes, final_solution
+    return opt_haploptype_count, final_solution
 
 
 def main():
@@ -183,35 +196,38 @@ def main():
     #(haplotypes, solution) = greedy_with_regret_solver([longHaplotype])
     #print solution
     avg_diff = 0
+    avg_size = 0
     runs = 20
-    test1 = ['10101',
-             '21010',
-             '21211',
-             '22112',
-             '02120']
-    (greedy_haplotypes, solution) = greedy_with_regret_solver(test1)
-    print greedy_haplotypes
-    print solution
-    (opt_haplotypes_count, opt_haplotypes, opt_solution) = \
-        branch_and_bound(test1, 7)
+    #test1 = ['10101',
+    #         '21010',
+    #         '21211',
+    #         '22112',
+    #         '02120']
+    #(greedy_haplotypes, solution) = greedy_with_regret_solver(test1)
+    #print greedy_haplotypes
+    #print solution
+    #(opt_haplotypes_count, opt_solution) = \
+    #   branch_and_bound(test1, 7)
     for x in range(runs):
-        input_genotypes = generate_genotype_input(N=10, M=10, L=50, print_output=False)
+        input_genotypes = generate_genotype_input(N=40, M=10, L=120, print_output=False)
         converted_genotypes = convert_input(input_genotypes)
         (greedy_haplotypes, solution) = greedy_with_regret_solver(converted_genotypes)
+        print '{}/{}-----'.format(x+1, runs)
         print '{} {}'.format(len(greedy_haplotypes), check_solution2(input_genotypes, solution))
 
-        (opt_haplotypes_count, opt_haplotypes, opt_solution) = \
+        (opt_haplotypes_count, opt_solution) = \
             branch_and_bound(converted_genotypes, len(greedy_haplotypes))
         print '{} {}'.format(opt_haplotypes_count, check_solution2(input_genotypes, opt_solution))
-        print '-----'
 
-    print 'avg diff: {}'.format(avg_diff/float(runs))
+        avg_diff += len(greedy_haplotypes) - opt_haplotypes_count
+        avg_size += len(greedy_haplotypes)
+    avg_diff /= float(runs)
+    avg_size /= float(runs)
+    print 'avg diff: {}'.format(avg_diff)
+    print 'avg size: {}'.format(avg_size)
+    print 'avg benefit: {}'.format(avg_diff/avg_size)
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
 
