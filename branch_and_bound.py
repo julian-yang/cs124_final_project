@@ -3,6 +3,8 @@ from genotype_generator import generate_genotype_input
 from greedy import greedy_with_regret_solver
 from greedy import convert_input
 from solutions_checker import check_solution2
+from time import localtime, strftime, time
+import datetime
 
 
 def get_solution_pairs(genotype):
@@ -54,7 +56,8 @@ def remove_cur_resolution(stack, solution_haplotypes, unique_haplotype_count):
     cur_genotype_resolutions.pop()
     return unique_haplotype_count, cur_genotype_resolutions
 
-def branch_and_bound(input_genotypes, greedy_solution_count):
+
+def branch_and_bound(input_genotypes, greedy_solution_count, greedy_solution):
     # generate resolution coverage.
     # maps haplotypes to genotypes it covers
     unique_genotypes = list(set(input_genotypes))
@@ -129,7 +132,8 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
     stack = [(unique_genotypes[0],
                   list(genotype_resolutions[unique_genotypes[0]]))]
     opt_solution = {}
-    opt_haploptype_count = greedy_solution_count
+    opt_haploptype_count = greedy_solution_count - 1
+    found_opt_solution = False
     while stack:
         (cur_genotype, cur_genotype_resolutions) = stack[-1]
         # pick first resolution off stack.
@@ -148,6 +152,7 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
             if len(stack) == len(unique_genotypes):
                 opt_solution = cur_solution
                 opt_haploptype_count = unique_haplotype_count
+                found_opt_solution = True
                 undo_action = True
                 # save as current best solution
             else:
@@ -180,6 +185,9 @@ def branch_and_bound(input_genotypes, greedy_solution_count):
                     remove_cur_resolution(stack, solution_haplotypes,
                                           unique_haplotype_count)
 
+    if not found_opt_solution:
+        return greedy_solution_count, greedy_solution
+
     final_solution = []
     for genotype in input_genotypes:
         pair = opt_solution[genotype]
@@ -208,24 +216,53 @@ def main():
     #print solution
     #(opt_haplotypes_count, opt_solution) = \
     #   branch_and_bound(test1, 7)
+    N = 10#30
+    M = 10#10
+    L = 50#90
+    total_elapsed = 0
+    folder = 'generated_data'
+    output_file_name = 'generated_data/N_{}_M_{}_L_{}.txt'.format(N, M, L)
+    outputfile = open(output_file_name, 'w')
+    outputfile.write('N={}, M={}, L={}\n'.format(N, M, L))
     for x in range(runs):
-        input_genotypes = generate_genotype_input(N=40, M=10, L=120, print_output=False)
+        input_genotypes = \
+            generate_genotype_input(N=N, M=M, L=L, print_output=False)
         converted_genotypes = convert_input(input_genotypes)
-        (greedy_haplotypes, solution) = greedy_with_regret_solver(converted_genotypes)
-        print '{}/{}-----'.format(x+1, runs)
-        print '{} {}'.format(len(greedy_haplotypes), check_solution2(input_genotypes, solution))
-
+        (greedy_haplotypes, solution) = \
+            greedy_with_regret_solver(converted_genotypes)
+        outputfile.write('{}/{}-----\n'.format(x+1, runs))
+        outputfile.write('{} {}\n'.format(len(greedy_haplotypes),
+                                        check_solution2(input_genotypes,
+                                                        solution)))
+        start = time()
         (opt_haplotypes_count, opt_solution) = \
-            branch_and_bound(converted_genotypes, len(greedy_haplotypes))
-        print '{} {}'.format(opt_haplotypes_count, check_solution2(input_genotypes, opt_solution))
-
+            branch_and_bound(converted_genotypes, len(greedy_haplotypes), solution)
+        outputfile.write('{} {}\n'.format(opt_haplotypes_count,
+                                        check_solution2(input_genotypes,
+                                                        opt_solution)))
+        end = time()
+        #print strftime("%Y-%m-%d %H:%M:%S", localtime(start))
+        #print strftime("%Y-%m-%d %H:%M:%S", localtime(end))
+        elapsed = end - start
+        total_elapsed += elapsed
+        outputfile.write(str(datetime.timedelta(seconds=elapsed)))
+        outputfile.write('\n')
         avg_diff += len(greedy_haplotypes) - opt_haplotypes_count
         avg_size += len(greedy_haplotypes)
     avg_diff /= float(runs)
     avg_size /= float(runs)
+    avg_time = total_elapsed / float(runs)
+    outputfile.write('avg diff: {}\n'.format(avg_diff))
+    outputfile.write('avg size: {}\n'.format(avg_size))
+    outputfile.write('avg benefit: {}\n'.format(avg_diff/avg_size))
+    outputfile.write('avg run-time: {}\n'.format(str(datetime.timedelta(seconds=avg_time))))
+    outputfile.close()
+
+    print 'finished!'
     print 'avg diff: {}'.format(avg_diff)
     print 'avg size: {}'.format(avg_size)
     print 'avg benefit: {}'.format(avg_diff/avg_size)
+    print 'avg run-time: {}'.format(str(datetime.timedelta(seconds=avg_time)))
 
 
 if __name__ == "__main__":
