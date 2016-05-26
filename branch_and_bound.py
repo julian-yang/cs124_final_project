@@ -196,73 +196,127 @@ def branch_and_bound(input_genotypes, greedy_solution_count, greedy_solution):
     return opt_haploptype_count, final_solution
 
 
-def main():
+def write_out(output_string, output_file):
+    print output_string
+    output_file.write(output_string)
+    output_file.write('\n')
 
+
+def run_test(N, M, L, runs, csv_file):
+    avg_diff = 0
+    avg_size = 0
+    total_opt = 0
+    total_greedy = 0
+    folder = 'generated_data'
+    output_file_name = 'generated_data/N_{}_M_{}_L_{}.txt'.format(N, M, L)
+    outputfile = open(output_file_name, 'w')
+    print ''
+    write_out('N={}, M={}, L={}'.format(N, M, L), outputfile)
+    for x in range(runs):
+        input_genotypes = \
+            generate_genotype_input(N=N, M=M, L=L, print_output=False)
+        converted_genotypes = convert_input(input_genotypes)
+        greedy_start = time()
+        (greedy_haplotypes, solution) = \
+            greedy_with_regret_solver(converted_genotypes)
+        greedy_end = time()
+        greedy_elapsed = greedy_end - greedy_start
+        greedy_time = str(datetime.timedelta(seconds=greedy_elapsed))
+        write_out('{}/{}-----'.format(x+1, runs), outputfile)
+        write_out('{} {} {}'.format(len(greedy_haplotypes),
+                                        check_solution2(input_genotypes,
+                                                        solution),
+                                    greedy_time),
+                  outputfile)
+        start = time()
+        (opt_haplotypes_count, opt_solution) = \
+            branch_and_bound(converted_genotypes, len(greedy_haplotypes), solution)
+        end = time()
+        opt_elapsed = end - start
+        opt_time = str(datetime.timedelta(seconds=opt_elapsed))
+        write_out('{} {} {}'.format(opt_haplotypes_count,
+                                    check_solution2(input_genotypes,
+                                                    opt_solution),
+                                    opt_time),
+                  outputfile)
+
+        total_opt += opt_elapsed
+        total_greedy += greedy_elapsed
+        avg_diff += len(greedy_haplotypes) - opt_haplotypes_count
+        avg_size += len(greedy_haplotypes)
+    avg_diff /= float(runs)
+    avg_size /= float(runs)
+    avg_benefit = avg_diff / avg_size
+    avg_opt_time = total_opt / float(runs)
+    avg_opt_time_str = str(datetime.timedelta(seconds=avg_opt_time))
+    avg_greedy_time = total_greedy / float(runs)
+    avg_greedy_time_str = str(datetime.timedelta(seconds=avg_greedy_time))
+    avg_time_diff = avg_greedy_time - avg_opt_time
+    avg_time_diff_str = ''
+    if avg_greedy_time > avg_opt_time:
+        avg_time_diff_str = str(datetime.timedelta(seconds=avg_greedy_time-avg_opt_time))
+    else:
+        avg_time_diff_str = '-' + str(datetime.timedelta(seconds=avg_opt_time-avg_greedy_time))
+
+    write_out('avg diff: {}'.format(avg_diff), outputfile)
+    write_out('avg size: {}'.format(avg_size), outputfile)
+    write_out('avg benefit: {}'.format(avg_benefit), outputfile)
+    write_out('avg greedy run-time: {}'.format(avg_greedy_time_str), outputfile)
+    write_out('avg opt run-time: {}'.format(avg_opt_time_str), outputfile)
+    write_out('avg time diff: {}'.format(avg_time_diff_str), outputfile)
+    csv_file.write('{}, '.format(N))
+    csv_file.write('{}, '.format(M))
+    csv_file.write('{}, '.format(L))
+    csv_file.write('{}, '.format(avg_diff))
+    csv_file.write('{}, '.format(avg_size))
+    csv_file.write('{}, '.format(avg_benefit))
+
+    csv_file.write('{}, '.format(avg_greedy_time))
+    csv_file.write('{}, '.format(avg_opt_time))
+    csv_file.write('{}, '.format(avg_time_diff))
+
+    csv_file.write('{}, '.format(avg_greedy_time_str))
+    csv_file.write('{}, '.format(avg_opt_time_str))
+    csv_file.write('{}, '.format(avg_time_diff_str))
+    csv_file.write('\n')
+
+
+    outputfile.close()
+
+
+def main():
     #mediumHaplotype = [0, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0]
     #longHaplotype = [0, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     #shortHaplotype = [0, 2, 0, 1, 1]
     #(haplotypes, solution) = greedy_with_regret_solver([longHaplotype])
     #print solution
-    avg_diff = 0
-    avg_size = 0
-    runs = 20
+
     #test1 = ['10101',
     #         '21010',
     #         '21211',
-    #         '22112',
-    #         '02120']
-    #(greedy_haplotypes, solution) = greedy_with_regret_solver(test1)
-    #print greedy_haplotypes
+    #         '22112', #         '02120'] #(greedy_haplotypes, solution) = greedy_with_regret_solver(test1) #print greedy_haplotypes
     #print solution
     #(opt_haplotypes_count, opt_solution) = \
     #   branch_and_bound(test1, 7)
-    N = 10#30
-    M = 10#10
-    L = 50#90
-    total_elapsed = 0
-    folder = 'generated_data'
-    output_file_name = 'generated_data/N_{}_M_{}_L_{}.txt'.format(N, M, L)
-    outputfile = open(output_file_name, 'w')
-    outputfile.write('N={}, M={}, L={}\n'.format(N, M, L))
-    for x in range(runs):
-        input_genotypes = \
-            generate_genotype_input(N=N, M=M, L=L, print_output=False)
-        converted_genotypes = convert_input(input_genotypes)
-        (greedy_haplotypes, solution) = \
-            greedy_with_regret_solver(converted_genotypes)
-        outputfile.write('{}/{}-----\n'.format(x+1, runs))
-        outputfile.write('{} {}\n'.format(len(greedy_haplotypes),
-                                        check_solution2(input_genotypes,
-                                                        solution)))
-        start = time()
-        (opt_haplotypes_count, opt_solution) = \
-            branch_and_bound(converted_genotypes, len(greedy_haplotypes), solution)
-        outputfile.write('{} {}\n'.format(opt_haplotypes_count,
-                                        check_solution2(input_genotypes,
-                                                        opt_solution)))
-        end = time()
-        #print strftime("%Y-%m-%d %H:%M:%S", localtime(start))
-        #print strftime("%Y-%m-%d %H:%M:%S", localtime(end))
-        elapsed = end - start
-        total_elapsed += elapsed
-        outputfile.write(str(datetime.timedelta(seconds=elapsed)))
-        outputfile.write('\n')
-        avg_diff += len(greedy_haplotypes) - opt_haplotypes_count
-        avg_size += len(greedy_haplotypes)
-    avg_diff /= float(runs)
-    avg_size /= float(runs)
-    avg_time = total_elapsed / float(runs)
-    outputfile.write('avg diff: {}\n'.format(avg_diff))
-    outputfile.write('avg size: {}\n'.format(avg_size))
-    outputfile.write('avg benefit: {}\n'.format(avg_diff/avg_size))
-    outputfile.write('avg run-time: {}\n'.format(str(datetime.timedelta(seconds=avg_time))))
-    outputfile.close()
+    runs = 20
+    N = 30
+    M = 10
+    L_start = 95
+    L_end = 101
+    L_step = 5
+    now_time = strftime("%Y-%m-%d_%H-%M-%S", localtime())
+    csv_file_name = 'generated_data/test_' + now_time + '.csv'
+    csv_file = open(csv_file_name, 'w')
+    csv_file.write('N, M, L, avg_diff, avg_size, avg_benefit, ' +
+                   'avg_greedy_time_secs, avg_opt_time_secs, avg_time_diff_secs, ' +
+                   'avg_greedy_time, avg_opt_time, avg_time_diff' +
+                   '\n')
+    for i in xrange(L_start, L_end, L_step):
+        run_test(N, M, i, runs, csv_file)
+
+    csv_file.close()
 
     print 'finished!'
-    print 'avg diff: {}'.format(avg_diff)
-    print 'avg size: {}'.format(avg_size)
-    print 'avg benefit: {}'.format(avg_diff/avg_size)
-    print 'avg run-time: {}'.format(str(datetime.timedelta(seconds=avg_time)))
 
 
 if __name__ == "__main__":
