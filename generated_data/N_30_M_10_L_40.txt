@@ -1,67 +1,81 @@
 N=30, M=10, L=40
-1/20-----
-45 True 0:00:00.040000
-45 True 0:00:00.001000
-2/20-----
-48 True 0:00:00.041000
-48 True 0:00:00.001000
-3/20-----
-52 True 0:00:00.069000
-52 True 0:00:00.001000
-4/20-----
-44 True 0:00:00.075000
-43 True 0:00:00.001000
-5/20-----
-52 True 0:00:00.069000
-52 True 0:00:00.001000
-6/20-----
-52 True 0:00:00.062000
-52 True 0:00:00
-7/20-----
-49 True 0:00:00.040000
-49 True 0:00:00.001000
-8/20-----
-51 True 0:00:00.056000
-51 True 0:00:00.001000
-9/20-----
-49 True 0:00:00.040000
-49 True 0:00:00
-10/20-----
-51 True 0:00:00.039000
-51 True 0:00:00
-11/20-----
-48 True 0:00:00.040000
-48 True 0:00:00
-12/20-----
-48 True 0:00:00.040000
-47 True 0:00:00.001000
-13/20-----
-46 True 0:00:00.041000
-46 True 0:00:00.001000
-14/20-----
-51 True 0:00:00.039000
-51 True 0:00:00.001000
-15/20-----
-51 True 0:00:00.039000
-50 True 0:00:00.002000
-16/20-----
-53 True 0:00:00.041000
-53 True 0:00:00.001000
-17/20-----
-48 True 0:00:00.041000
-48 True 0:00:00.001000
-18/20-----
-52 True 0:00:00.041000
-52 True 0:00:00
-19/20-----
-49 True 0:00:00.042000
-49 True 0:00:00.001000
-20/20-----
-48 True 0:00:00.044000
-48 True 0:00:00
-avg diff: 0.15
-avg size: 49.35
-avg benefit: 0.00303951367781
-avg greedy run-time: 0:00:00.046950
-avg opt run-time: 0:00:00.000750
-avg time diff: 0:00:00.046200
+1/10-----
+51 True 0:00:00.076809
+total_branches: 131072
+branches_explored: 140
+case1_prunes: 20
+case2_prunes: 0
+51 True 0:00:00.001568
+2/10-----
+49 True 0:00:00.048796
+total_branches: 16384
+branches_explored: 46
+case1_prunes: 17
+case2_prunes: 0
+49 True 0:00:00.000555
+3/10-----
+46 True 0:00:00.048422
+total_branches: 262144
+branches_explored: 142
+case1_prunes: 16
+case2_prunes: 0
+46 True 0:00:00.000832
+4/10-----
+54 True 0:00:00.062558
+total_branches: 8192
+branches_explored: 79
+case1_prunes: 15
+case2_prunes: 0
+54 True 0:00:00.000802
+5/10-----
+50 True 0:00:00.049330
+total_branches: 32768
+branches_explored: 99
+case1_prunes: 13
+case2_prunes: 0
+50 True 0:00:00.001216
+6/10-----
+54 True 0:00:00.049683
+total_branches: 16384
+branches_explored: 180
+case1_prunes: 14
+case2_prunes: 0
+54 True 0:00:00.001008
+7/10-----
+50 True 0:00:00.049932
+total_branches: 32768
+branches_explored: 118
+case1_prunes: 12
+case2_prunes: 0
+50 True 0:00:00.000698
+8/10-----
+52 True 0:00:00.050221
+total_branches: 8192
+branches_explored: 70
+case1_prunes: 11
+case2_prunes: 0
+52 True 0:00:00.002779
+9/10-----
+51 True 0:00:00.054505
+total_branches: 16384
+branches_explored: 313
+case1_prunes: 9
+case2_prunes: 0
+51 True 0:00:00.001364
+10/10-----
+51 True 0:00:00.050792
+total_branches: 8192
+branches_explored: 46
+case1_prunes: 11
+case2_prunes: 0
+51 True 0:00:00.000527
+avg diff: 0.0
+avg size: 50.8
+avg benefit: 0.0
+avg greedy run-time: 0:00:00.054105
+avg opt run-time: 0:00:00.001135
+avg time diff: -0:00:00.052970
+avg total branches: 53248.0
+avg branches explored: 123.3
+avg case 1 prunes: 13.8
+avg case 2 prunes: 0.0
