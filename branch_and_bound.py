@@ -29,12 +29,12 @@ def get_solution_pairs(genotype):
     return fills
 
 
-def determine_h1_h2_h3_h4(genotype, genotype_solutions, haplotype_resolution):
-    (h1, h2) = genotype_solutions[genotype][0]
-    (h3, h4) = genotype_solutions[genotype][1]
+def determine_h1_h2_h3_h4(res1, res2, haplotype_resolution):
+    (h1, h2) = res1
+    (h3, h4) = res2
     if len(haplotype_resolution[h1]) + len(haplotype_resolution[h2]) != 3 \
             or len(haplotype_resolution[h3]) + \
-                    len(haplotype_resolution[h4]) != 3:
+                len(haplotype_resolution[h4]) != 3:
         return h1, h2, h3, h4, False
     if haplotype_resolution[h1] == 2:
         temp = h1
@@ -105,29 +105,30 @@ def branch_and_bound(input_genotypes, greedy_solution_count, greedy_solution):
     # if h1, h3, h4, h6 have coverage 1 and h2 and h4 have coverage 2:
     # keep only (h1, h2) and (h2, h3) [delete (h4, h5) and (h5, h6)
     case_2_prunes = 0
-    for genotype1 in genotypes_with_two_resolutions:
-        if len(genotype_resolutions[genotype1]) != 2:
-            continue
-        (h1, h2, h3, h4, valid) = \
-            determine_h1_h2_h3_h4(genotype1, genotype_resolutions,
-                                  haplotype_resolution)
-        if not valid:
-            continue
-        for genotype2 in genotypes_with_two_resolutions:
-            if genotype1 == genotype2 \
-                    or len(genotype_resolutions[genotype2]) != 2:
-                continue
-            (h5, h6, h7, h8, valid) = \
-                determine_h1_h2_h3_h4(genotype2, genotype_resolutions,
-                                      haplotype_resolution)
+    for genotype1, solutions1 in genotype_resolutions.iteritems():
+        for (res1, res2) in combinations(solutions1, 2):
+            (h1, h2, h3, h4, valid) = \
+                determine_h1_h2_h3_h4(res1, res2, haplotype_resolution)
             if not valid:
                 continue
-            if (h2 == h6 and h4 == h8) or (h2 == h8 and h4 == h6):
-                # delete h3,h4 and h7,h8 (aka the latter 2 pairs of each
-                # genotype)
-                genotype_resolutions[genotype1].pop()
-                genotype_resolutions[genotype2].pop()
-                case_2_prunes += 2
+            for genotype2, solutions2 in genotype_resolutions.iteritems():
+                if genotype1 == genotype2:
+                    continue
+                for (res3, res4) in combinations(solutions2, 2):
+                    (h5, h6, h7, h8, valid) = \
+                        determine_h1_h2_h3_h4(res3, res4, haplotype_resolution)
+                    if not valid:
+                        continue
+                    if h2 == h6 and h4 == h8:
+                        # del (h3, h4) and (h7, h8) --> del res2 & res4
+                        genotype_resolutions[genotype1].remove(res2)
+                        genotype_resolutions[genotype2].remove(res4)
+                        case_2_prunes += 2
+                    elif h2 == h8 and h4 == h6:
+                        # del (h1, h2) and (h7, h8) --> del res1 & res4
+                        genotype_resolutions[genotype1].remove(res1)
+                        genotype_resolutions[genotype2].remove(res4)
+                        case_2_prunes += 2
 
     for solutions in genotype_resolutions.itervalues():
         if not solutions:
