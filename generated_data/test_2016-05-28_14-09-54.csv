@@ -1,0 +1,3 @@
+N, M, L, avg_diff, avg_size, avg_benefit, avg_greedy_time_secs, avg_opt_time_secs, avg_time_diff_secs, avg_greedy_time, avg_opt_time, avg_time_diff, avg_total_branches, avg_branches_explored, avg_case_1_prunes, avg_case_2_prunes
+40, 10, 30, 0.0, 61.2, 0.0, 0.168065786362, 0.00227229595184, 0.16579349041, 0:00:00.168066, 0:00:00.002272, -0:00:00.165793, 252.0, 50.3, 5.4, 0.0, 
+40, 10, 35, 0.0, 61.5, 0.0, 0.126894211769, 0.00242481231689, 0.124469399452, 0:00:00.126894, 0:00:00.002425, -0:00:00.124469, 3635.2, 115.1, 9.0, 0.0, 
