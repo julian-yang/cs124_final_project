@@ -344,11 +344,11 @@ def main():
     #print solution
     #(opt_haplotypes_count, opt_solution) = \
     #   branch_and_bound(test1, 7)
-    runs = 10
-    N = 30
+    runs = 20
+    N = 40
     M = 10
-    L_start = 40
-    L_end = 70
+    L_start = 95
+    L_end = 101
     L_step = 5
     now_time = strftime("%Y-%m-%d_%H-%M-%S", localtime())
     csv_file_name = 'generated_data/test_' + now_time + '.csv'
