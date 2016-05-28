@@ -1,151 +1,221 @@
 N=40, M=10, L=45
-1/20-----
-66 True 0:00:00.079000
+1/30-----
+57 True 0:00:00.088125
+total_branches: 262144
+branches_explored: 756
+case1_prunes: 15
+case2_prunes: 0
+57 True 0:00:00.003238
+2/30-----
+62 True 0:00:00.111640
+total_branches: 524288
+branches_explored: 270
+case1_prunes: 15
+case2_prunes: 0
+61 True 0:00:00.001357
+3/30-----
+58 True 0:00:00.095674
+total_branches: 2097152
+branches_explored: 1998
+case1_prunes: 15
+case2_prunes: 0
+58 True 0:00:00.007695
+4/30-----
+67 True 0:00:00.091688
 total_branches: 16384
-branches_explored: 104
-case1_prunes: 10
-case2_prunes: 0
-66 True 0:00:00
-2/20-----
-66 True 0:00:00.085000
-total_branches: 65536
-branches_explored: 737
-case1_prunes: 22
-case2_prunes: 0
-66 True 0:00:00.003000
-3/20-----
-64 True 0:00:00.080000
-total_branches: 65536
-branches_explored: 505
-case1_prunes: 14
-case2_prunes: 0
-63 True 0:00:00.003000
-4/20-----
-63 True 0:00:00.105000
-total_branches: 65536
-branches_explored: 428
-case1_prunes: 11
-case2_prunes: 0
-63 True 0:00:00.003000
-5/20-----
-63 True 0:00:00.081000
-total_branches: 8192
-branches_explored: 85
+branches_explored: 337
 case1_prunes: 9
 case2_prunes: 0
-63 True 0:00:00.001000
-6/20-----
-58 True 0:00:00.083000
-total_branches: 524288
-branches_explored: 4097
-case1_prunes: 19
-case2_prunes: 0
-58 True 0:00:00.012000
-7/20-----
-62 True 0:00:00.083000
-total_branches: 16384
-branches_explored: 109
-case1_prunes: 10
-case2_prunes: 0
-62 True 0:00:00
-8/20-----
-62 True 0:00:00.087000
-total_branches: 262144
-branches_explored: 944
-case1_prunes: 23
-case2_prunes: 0
-62 True 0:00:00.004000
-9/20-----
-66 True 0:00:00.093000
-total_branches: 65536
-branches_explored: 97
-case1_prunes: 13
-case2_prunes: 0
-66 True 0:00:00.002000
-10/20-----
-62 True 0:00:00.112000
-total_branches: 65536
-branches_explored: 177
-case1_prunes: 12
-case2_prunes: 0
-62 True 0:00:00.001000
-11/20-----
-63 True 0:00:00.077000
-total_branches: 65536
-branches_explored: 74
-case1_prunes: 14
-case2_prunes: 0
-63 True 0:00:00.001000
-12/20-----
-62 True 0:00:00.080000
-total_branches: 32768
-branches_explored: 136
-case1_prunes: 13
-case2_prunes: 0
-62 True 0:00:00.002000
-13/20-----
-56 True 0:00:00.075000
-total_branches: 4194304
-branches_explored: 7282
+67 True 0:00:00.002853
+5/30-----
+64 True 0:00:00.092978
+total_branches: 131072
+branches_explored: 160
 case1_prunes: 17
 case2_prunes: 0
-55 True 0:00:00.028000
-14/20-----
-60 True 0:00:00.086000
+64 True 0:00:00.001679
+6/30-----
+68 True 0:00:00.109771
 total_branches: 32768
-branches_explored: 120
+branches_explored: 66
 case1_prunes: 13
 case2_prunes: 0
-60 True 0:00:00.001000
-15/20-----
-60 True 0:00:00.081000
-total_branches: 8192
-branches_explored: 217
-case1_prunes: 8
-case2_prunes: 0
-60 True 0:00:00.002000
-16/20-----
-64 True 0:00:00.088000
-total_branches: 131072
-branches_explored: 508
+68 True 0:00:00.003412
+7/30-----
+62 True 0:00:00.117399
+total_branches: 1048576
+branches_explored: 711
 case1_prunes: 15
 case2_prunes: 0
-64 True 0:00:00.002000
-17/20-----
-65 True 0:00:00.068000
+61 True 0:00:00.003189
+8/30-----
+64 True 0:00:00.117529
 total_branches: 65536
-branches_explored: 118
-case1_prunes: 15
-case2_prunes: 0
-65 True 0:00:00.001000
-18/20-----
-66 True 0:00:00.085000
-total_branches: 16384
-branches_explored: 41
-case1_prunes: 14
-case2_prunes: 0
-66 True 0:00:00.001000
-19/20-----
-58 True 0:00:00.089000
-total_branches: 65536
-branches_explored: 334
+branches_explored: 923
 case1_prunes: 10
 case2_prunes: 0
-57 True 0:00:00.002000
-20/20-----
-64 True 0:00:00.069000
+64 True 0:00:00.004789
+9/30-----
+65 True 0:00:00.098090
+total_branches: 65536
+branches_explored: 119
+case1_prunes: 13
+case2_prunes: 0
+65 True 0:00:00.000908
+10/30-----
+62 True 0:00:00.101729
+total_branches: 262144
+branches_explored: 1287
+case1_prunes: 14
+case2_prunes: 2
+62 True 0:00:00.015027
+11/30-----
+63 True 0:00:00.098621
+total_branches: 262144
+branches_explored: 115
+case1_prunes: 15
+case2_prunes: 0
+63 True 0:00:00.001137
+12/30-----
+60 True 0:00:00.124631
+total_branches: 524288
+branches_explored: 212
+case1_prunes: 16
+case2_prunes: 0
+60 True 0:00:00.001261
+13/30-----
+64 True 0:00:00.087707
+total_branches: 262144
+branches_explored: 636
+case1_prunes: 16
+case2_prunes: 0
+64 True 0:00:00.006149
+14/30-----
+63 True 0:00:00.087003
+total_branches: 1048576
+branches_explored: 256
+case1_prunes: 21
+case2_prunes: 0
+63 True 0:00:00.001762
+15/30-----
+62 True 0:00:00.095951
+total_branches: 524288
+branches_explored: 149
+case1_prunes: 17
+case2_prunes: 0
+62 True 0:00:00.002241
+16/30-----
+56 True 0:00:00.082699
+total_branches: 4194304
+branches_explored: 2108
+case1_prunes: 19
+case2_prunes: 0
+56 True 0:00:00.010624
+17/30-----
+63 True 0:00:00.110124
+total_branches: 1048576
+branches_explored: 284
+case1_prunes: 19
+case2_prunes: 0
+62 True 0:00:00.003338
+18/30-----
+61 True 0:00:00.092444
+total_branches: 1048576
+branches_explored: 615
+case1_prunes: 19
+case2_prunes: 0
+60 True 0:00:00.002464
+19/30-----
+66 True 0:00:00.119574
+total_branches: 32768
+branches_explored: 568
+case1_prunes: 8
+case2_prunes: 0
+65 True 0:00:00.002700
+20/30-----
+65 True 0:00:00.104493
+total_branches: 262144
+branches_explored: 248
+case1_prunes: 15
+case2_prunes: 0
+65 True 0:00:00.001242
+21/30-----
+61 True 0:00:00.128615
 total_branches: 131072
-branches_explored: 845
+branches_explored: 1045
+case1_prunes: 10
+case2_prunes: 0
+61 True 0:00:00.005116
+22/30-----
+65 True 0:00:00.096419
+total_branches: 65536
+branches_explored: 325
 case1_prunes: 12
 case2_prunes: 0
-64 True 0:00:00.005000
-avg diff: 0.15
-avg size: 62.5
-avg benefit: 0.0024
-avg greedy run-time: 0:00:00.084300
-avg opt run-time: 0:00:00.003700
-avg time diff: -0:00:00.080600
-avg total branches: 294912.0
-avg branches explored: 847.9
-avg case 1 prunes: 13.7
-avg case 2 prunes: 0.0
+65 True 0:00:00.001921
+23/30-----
+61 True 0:00:00.088212
+total_branches: 131072
+branches_explored: 698
+case1_prunes: 9
+case2_prunes: 0
+61 True 0:00:00.002754
+24/30-----
+63 True 0:00:00.097505
+total_branches: 262144
+branches_explored: 2211
+case1_prunes: 13
+case2_prunes: 0
+62 True 0:00:00.008080
+25/30-----
+67 True 0:00:00.121633
+total_branches: 32768
+branches_explored: 501
+case1_prunes: 8
+case2_prunes: 0
+67 True 0:00:00.002278
+26/30-----
+66 True 0:00:00.091532
+total_branches: 32768
+branches_explored: 115
+case1_prunes: 11
+case2_prunes: 0
+66 True 0:00:00.000906
+27/30-----
+60 True 0:00:00.095528
+total_branches: 2097152
+branches_explored: 1839
+case1_prunes: 21
+case2_prunes: 0
+60 True 0:00:00.016205
+28/30-----
+64 True 0:00:00.104665
+total_branches: 65536
+branches_explored: 324
+case1_prunes: 9
+case2_prunes: 0
+64 True 0:00:00.001919
+29/30-----
+63 True 0:00:00.118126
+total_branches: 131072
+branches_explored: 328
+case1_prunes: 17
+case2_prunes: 0
+63 True 0:00:00.001896
+30/30-----
+61 True 0:00:00.110941
+total_branches: 2097152
+branches_explored: 1177
+case1_prunes: 17
+case2_prunes: 0
+61 True 0:00:00.003935
+avg diff: 0.2
+avg size: 62.7666666667
+avg benefit: 0.00318640467339
+avg greedy run-time: 0:00:00.102702
+avg opt run-time: 0:00:00.004069
+avg time diff: -0:00:00.098632
+avg total branches: 625322.666667
+avg branches explored: 679.366666667
+avg case 1 prunes: 14.2666666667
+avg case 2 prunes: 0.0666666666667

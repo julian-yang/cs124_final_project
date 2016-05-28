@@ -12,7 +12,13 @@ def generate_genotype_input(N = 100, M=15, L=200, print_output=False):
         # print loc
         # print loc / N
         # print loc % M
-        Matrix[loc / M][loc % M] = 2
+        added_2 = False
+        while not added_2:
+            if Matrix[loc / M][loc % M] != 2:
+                Matrix[loc / M][loc % M] = 2
+                added_2 = True
+            else:
+                loc = (loc + 1) % (N*M)
 
     for r in range(N):
         for c in range(M):

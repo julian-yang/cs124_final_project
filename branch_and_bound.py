@@ -344,18 +344,18 @@ def main():
     #print solution
     #(opt_haplotypes_count, opt_solution) = \
     #   branch_and_bound(test1, 7)
-    runs = 20
+    runs = 30
     N = 40
     M = 10
-    L_start = 95
-    L_end = 101
+    L_start = 30
+    L_end = 86
     L_step = 5
     now_time = strftime("%Y-%m-%d_%H-%M-%S", localtime())
     csv_file_name = 'generated_data/test_' + now_time + '.csv'
     csv_file = open(csv_file_name, 'w')
     csv_file.write('N, M, L, avg_diff, avg_size, avg_benefit, ' +
                    'avg_greedy_time_secs, avg_opt_time_secs, avg_time_diff_secs, ' +
-                   'avg_greedy_time, avg_opt_time, avg_time_diff' +
+                   'avg_greedy_time, avg_opt_time, avg_time_diff, ' +
                    'avg_total_branches, avg_branches_explored, avg_case_1_prunes, avg_case_2_prunes'
                    '\n')
     for i in xrange(L_start, L_end, L_step):
