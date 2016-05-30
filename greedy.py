@@ -59,7 +59,7 @@ def find_haplotype_complement(haplotype, genotype):
 
 # Given NxM matrix, where N = # of individuals, M = # of SNPs
 # Find haplotype set.
-def greedy_with_regret_solver(genotypes, allow_regret=True):
+def greedy_solver(genotypes, allow_regret=True):
     M = len(genotypes[0])
 
     # generate all 2^M possible haplotypes
@@ -126,13 +126,13 @@ def main():
     #mediumHaplotype = [0, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0]
     #longHaplotype = [0, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     #shortHaplotype = [0, 2, 0, 1, 1]
-    #(haplotypes, solution) = greedy_with_regret_solver([longHaplotype])
+    #(haplotypes, solution) = greedy_solver([longHaplotype])
     #print solution
     avg_diff = 0
     runs = 20
     for x in range(runs):
         input = generate_genotype_input(N=200, M=10, L=1500)
-        (haplotypes, solution) = greedy_with_regret_solver(input)
+        (haplotypes, solution) = greedy_solver(input)
         print '{} {}'.format(len(haplotypes), check_solution2(input, solution))
 
     print 'avg diff: {}'.format(avg_diff/float(runs))

@@ -1,6 +1,6 @@
 from greedy import generate_permutations
 from genotype_generator import generate_genotype_input
-from greedy import greedy_with_regret_solver
+from greedy import greedy_solver
 from greedy import convert_input
 from itertools import combinations
 from solutions_checker import check_solution2
@@ -164,7 +164,7 @@ def branch_and_bound(input_genotypes, greedy_solution_count, greedy_solution):
         undo_action = False
         if unique_haplotype_count <= opt_haploptype_count:
             if len(stack) == len(unique_genotypes):
-                opt_solution = cur_solution
+                opt_solution = dict(cur_solution)
                 opt_haploptype_count = unique_haplotype_count
                 found_opt_solution = True
                 undo_action = True
@@ -239,7 +239,7 @@ def run_test(N, M, L, runs, csv_file):
         # run greedy
         greedy_start = time()
         (greedy_haplotypes, solution) = \
-            greedy_with_regret_solver(converted_genotypes)
+            greedy_solver(converted_genotypes)
         greedy_end = time()
         greedy_elapsed = greedy_end - greedy_start
         greedy_time = str(datetime.timedelta(seconds=greedy_elapsed))
@@ -334,13 +334,13 @@ def main():
     #mediumHaplotype = [0, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0]
     #longHaplotype = [0, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     #shortHaplotype = [0, 2, 0, 1, 1]
-    #(haplotypes, solution) = greedy_with_regret_solver([longHaplotype])
+    #(haplotypes, solution) = greedy_solver([longHaplotype])
     #print solution
 
     #test1 = ['10101',
     #         '21010',
     #         '21211',
-    #         '22112', #         '02120'] #(greedy_haplotypes, solution) = greedy_with_regret_solver(test1) #print greedy_haplotypes
+    #         '22112', #         '02120'] #(greedy_haplotypes, solution) = greedy_solver(test1) #print greedy_haplotypes
     #print solution
     #(opt_haplotypes_count, opt_solution) = \
     #   branch_and_bound(test1, 7)
